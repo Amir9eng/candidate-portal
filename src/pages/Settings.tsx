@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
-import { Bell, Mail, Lock, Globe, Moon, Sun, User, Save } from 'lucide-react';
+import { Bell, Lock, Moon, Sun, User, Save } from 'lucide-react';
 
 const Settings = () => {
   const navigate = useNavigate();
