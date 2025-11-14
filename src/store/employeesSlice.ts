@@ -15,9 +15,12 @@ const initialState: EmployeesState = {
 
 export const fetchEmployeesAsync = createAsyncThunk(
   'employees/fetchEmployees',
-  async (companyId: number, { rejectWithValue }) => {
+  async (
+    { companyId, employeeId }: { companyId: number; employeeId?: number },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await fetchEmployees(companyId);
+      const response = await fetchEmployees(companyId, employeeId);
       // Handle different response structures
       const employees = response.data || response.employees || [];
       return employees;

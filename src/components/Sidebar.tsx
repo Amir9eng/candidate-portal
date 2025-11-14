@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { logout } from '../store/authSlice';
+import { persistor } from '../store/store';
 import {
   LayoutDashboard,
   Briefcase,
@@ -30,8 +31,10 @@ const Sidebar = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(logout());
+    // Purge persisted state from localStorage
+    await persistor.purge();
     navigate('/');
   };
 

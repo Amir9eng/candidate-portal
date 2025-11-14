@@ -1,18 +1,29 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchEmployeesAsync } from '../store/employeesSlice';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 
 const Teams = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { employees, isLoading, error } = useAppSelector(
     (state) => state.employees
   );
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   // Get company_id from user data or use default (59)
   const companyId = user?.company_id || user?.companyId || 59;
+  // Get employee id from user data - check multiple possible field names
+  // The id field is required for the API request (used for authorization)
+  const employeeId = user?.id || user?.employee_id || user?.user_id;
 
   // Helper function to get full name
   const getFullName = (): string => {
@@ -30,9 +41,9 @@ const Teams = () => {
 
   useEffect(() => {
     if (companyId) {
-      dispatch(fetchEmployeesAsync(companyId));
+      dispatch(fetchEmployeesAsync({ companyId, employeeId }));
     }
-  }, [dispatch, companyId]);
+  }, [dispatch, companyId, employeeId]);
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -81,17 +92,17 @@ const Teams = () => {
                   >
                     {/* Employee Image */}
                     <div className="aspect-square bg-gray-200 overflow-hidden">
-                      {employee.avatar ? (
+                      {employee.profile_image_url ? (
                         <img
-                          src={employee.avatar}
-                          alt={employee.name || 'Employee'}
+                          src={`https://apiqa.kylianerp.com${employee.profile_image_url}`}
+                          alt={`${employee.employee_fristname} ${employee.employee_lastname}`}
                           className="w-full h-full object-cover"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gray-300">
                           <span className="text-4xl text-gray-500">
-                            {employee.name
-                              ? employee.name.charAt(0).toUpperCase()
+                            {employee.employee_fristname
+                              ? employee.employee_fristname.charAt(0).toUpperCase()
                               : '?'}
                           </span>
                         </div>
@@ -101,13 +112,10 @@ const Teams = () => {
                     {/* Employee Info */}
                     <div className="p-4 bg-white">
                       <h3 className="font-bold text-[#00002B] text-lg mb-1">
-                        {employee.name || 'Unknown Employee'}
+                        {`${employee.employee_fristname || ''} ${employee.employee_lastname || ''}`.trim() || 'Unknown Employee'}
                       </h3>
                       <p className="text-sm text-gray-600">
-                        {employee.position ||
-                          employee.department ||
-                          employee.title ||
-                          'Employee'}
+                        {employee.employee_designation || 'Employee'}
                       </p>
                     </div>
                   </div>

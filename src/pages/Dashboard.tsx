@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
@@ -5,7 +7,14 @@ import { User, Plus, Trash2, FileText } from 'lucide-react';
 import avatar from '../assets/avatar.png';
 
 const Dashboard = () => {
-  const { user } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   // Helper function to extract year from date
   const getYearFromDate = (dateString: string | null | undefined): string | null => {
