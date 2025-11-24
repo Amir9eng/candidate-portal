@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
-import { HelpCircle, Mail, MessageCircle, Phone, Send, FileText } from 'lucide-react';
+import { HelpCircle, Mail, Phone, Send, FileText } from 'lucide-react';
 
 const Support = () => {
   const navigate = useNavigate();
@@ -26,13 +26,17 @@ const Support = () => {
     const firstName = user.employee_fristname || '';
     const lastName = user.employee_lastname || '';
     const middleName = user.employee_middle_name || '';
-    return [firstName, middleName, lastName].filter(Boolean).join(' ') || 'User';
+    return (
+      [firstName, middleName, lastName].filter(Boolean).join(' ') || 'User'
+    );
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
-    alert('Support request submitted successfully! We will get back to you soon.');
+    alert(
+      'Support request submitted successfully! We will get back to you soon.'
+    );
     setFormData({ subject: '', message: '', category: 'general' });
   };
 
@@ -50,7 +54,9 @@ const Support = () => {
           {/* Page Header */}
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-[#00002B] mb-1">Support</h2>
-            <p className="text-gray-600">Get help or contact our support team</p>
+            <p className="text-gray-600">
+              Get help or contact our support team
+            </p>
           </div>
 
           <div className="max-w-4xl grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -59,7 +65,9 @@ const Support = () => {
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <Mail className="text-[#00002B]" size={24} />
-                  <h3 className="text-lg font-semibold text-[#00002B]">Email Support</h3>
+                  <h3 className="text-lg font-semibold text-[#00002B]">
+                    Email Support
+                  </h3>
                 </div>
                 <p className="text-gray-600 text-sm mb-2">
                   Send us an email and we'll respond within 24 hours
@@ -75,7 +83,9 @@ const Support = () => {
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <Phone className="text-[#00002B]" size={24} />
-                  <h3 className="text-lg font-semibold text-[#00002B]">Phone Support</h3>
+                  <h3 className="text-lg font-semibold text-[#00002B]">
+                    Phone Support
+                  </h3>
                 </div>
                 <p className="text-gray-600 text-sm mb-2">
                   Call us during business hours
@@ -87,19 +97,6 @@ const Support = () => {
                   +1 (234) 567-890
                 </a>
               </div>
-
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <MessageCircle className="text-[#00002B]" size={24} />
-                  <h3 className="text-lg font-semibold text-[#00002B]">Live Chat</h3>
-                </div>
-                <p className="text-gray-600 text-sm mb-4">
-                  Chat with our support team in real-time
-                </p>
-                <button className="w-full px-4 py-2 bg-[#00002B] text-white rounded-lg hover:bg-[#00002B]/90 transition-colors font-medium">
-                  Start Chat
-                </button>
-              </div>
             </div>
 
             {/* Support Form */}
@@ -107,7 +104,9 @@ const Support = () => {
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <HelpCircle className="text-[#00002B]" size={24} />
-                  <h3 className="text-xl font-semibold text-[#00002B]">Submit a Request</h3>
+                  <h3 className="text-xl font-semibold text-[#00002B]">
+                    Submit a Request
+                  </h3>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -188,8 +187,8 @@ const Support = () => {
                       How do I update my profile information?
                     </h4>
                     <p className="text-sm text-gray-600">
-                      You can update your profile information from the Settings page. Some
-                      information may require admin approval.
+                      You can update your profile information from the Settings
+                      page. Some information may require admin approval.
                     </p>
                   </div>
                   <div>
@@ -197,8 +196,9 @@ const Support = () => {
                       How do I download my offer letter?
                     </h4>
                     <p className="text-sm text-gray-600">
-                      You can download your offer letter from the Job Offer page. Click on the
-                      download button next to your offer letter.
+                      You can download your offer letter from the Job Offer
+                      page. Click on the download button next to your offer
+                      letter.
                     </p>
                   </div>
                   <div>
@@ -206,8 +206,9 @@ const Support = () => {
                       Who can I contact for technical issues?
                     </h4>
                     <p className="text-sm text-gray-600">
-                      For technical issues, please submit a support request with the category
-                      "Technical Issue" or contact our support team directly.
+                      For technical issues, please submit a support request with
+                      the category "Technical Issue" or contact our support team
+                      directly.
                     </p>
                   </div>
                 </div>
@@ -221,4 +222,3 @@ const Support = () => {
 };
 
 export default Support;
-

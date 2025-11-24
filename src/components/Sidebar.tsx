@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { logout } from '../store/authSlice';
 import { persistor } from '../store/store';
+import { useSidebar } from '../contexts/SidebarContext';
 import {
   LayoutDashboard,
   Briefcase,
@@ -30,6 +31,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const { isCollapsed } = useSidebar();
 
   const handleLogout = async () => {
     dispatch(logout());
@@ -39,10 +41,20 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-64 bg-white min-h-screen flex flex-col border-r border-gray-200">
+    <div
+      className={`bg-white min-h-screen flex flex-col border-r border-gray-200 transition-all duration-300 ${
+        isCollapsed ? 'w-20' : 'w-64'
+      }`}
+    >
       {/* Logo */}
-      <div className="p-6 border-b border-gray-200">
-        <img src={logo} alt="kylianerp logo" className="h-8 w-auto" />
+      <div className={`border-b border-gray-200 transition-all duration-300 ${
+        isCollapsed ? 'p-4' : 'p-6'
+      }`}>
+        {isCollapsed ? (
+          <img src={logo} alt="kylianerp logo" className="h-8 w-8 mx-auto" />
+        ) : (
+          <img src={logo} alt="kylianerp logo" className="h-8 w-auto" />
+        )}
       </div>
 
       {/* Navigation Items */}
@@ -54,27 +66,41 @@ const Sidebar = () => {
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className={`w-full flex items-center gap-3 px-6 py-3 transition-colors ${
+              title={isCollapsed ? item.name : ''}
+              className={`w-full flex items-center transition-all duration-300 ${
+                isCollapsed
+                  ? 'justify-center px-0 py-3'
+                  : 'gap-3 px-6 py-3'
+              } ${
                 isActive
                   ? 'bg-[#00002B] text-white border-l-4 border-[#00002B]'
                   : 'text-[#00002B] hover:bg-gray-100'
               }`}
             >
               <Icon size={20} />
-              <span className="font-medium">{item.name}</span>
+              {!isCollapsed && (
+                <span className="font-medium">{item.name}</span>
+              )}
             </button>
           );
         })}
       </nav>
 
       {/* Logout */}
-      <div className="p-4 border-t border-gray-200">
+      <div className={`border-t border-gray-200 transition-all duration-300 ${
+        isCollapsed ? 'p-2' : 'p-4'
+      }`}>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-6 py-3 text-[#00002B] hover:bg-gray-100 transition-colors rounded"
+          title={isCollapsed ? 'Logout' : ''}
+          className={`w-full flex items-center transition-all duration-300 ${
+            isCollapsed
+              ? 'justify-center px-0 py-3'
+              : 'gap-3 px-6 py-3'
+          } text-[#00002B] hover:bg-gray-100 transition-colors rounded`}
         >
           <LogOut size={20} />
-          <span className="font-medium">Logout</span>
+          {!isCollapsed && <span className="font-medium">Logout</span>}
         </button>
       </div>
     </div>
