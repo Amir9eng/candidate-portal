@@ -42,12 +42,12 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-white min-h-screen flex flex-col border-r border-gray-200 transition-all duration-300 ${
+      className={`bg-white dark:bg-gray-800 min-h-screen flex flex-col border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ${
         isCollapsed ? 'w-20' : 'w-64'
       }`}
     >
       {/* Logo */}
-      <div className={`border-b border-gray-200 transition-all duration-300 ${
+      <div className={`border-b border-gray-200 dark:border-gray-700 transition-all duration-300 ${
         isCollapsed ? 'p-4' : 'p-6'
       }`}>
         {isCollapsed ? (
@@ -73,8 +73,8 @@ const Sidebar = () => {
                   : 'gap-3 px-6 py-3'
               } ${
                 isActive
-                  ? 'bg-[#00002B] text-white border-l-4 border-[#00002B]'
-                  : 'text-[#00002B] hover:bg-gray-100'
+                  ? 'bg-[#00002B] dark:bg-[#00002B] text-white border-l-4 border-[#00002B]'
+                  : 'text-[#00002B] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
             >
               <Icon size={20} />
@@ -87,7 +87,7 @@ const Sidebar = () => {
       </nav>
 
       {/* Logout */}
-      <div className={`border-t border-gray-200 transition-all duration-300 ${
+      <div className={`border-t border-gray-200 dark:border-gray-700 transition-all duration-300 ${
         isCollapsed ? 'p-2' : 'p-4'
       }`}>
         <button
@@ -97,7 +97,7 @@ const Sidebar = () => {
             isCollapsed
               ? 'justify-center px-0 py-3'
               : 'gap-3 px-6 py-3'
-          } text-[#00002B] hover:bg-gray-100 transition-colors rounded`}
+          } text-[#00002B] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors rounded`}
         >
           <LogOut size={20} />
           {!isCollapsed && <span className="font-medium">Logout</span>}

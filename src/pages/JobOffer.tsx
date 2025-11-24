@@ -115,7 +115,7 @@ const JobOffer = () => {
   ];
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
@@ -124,36 +124,42 @@ const JobOffer = () => {
           userEmail={user?.employee_email || user?.employee_officialemail || ''}
         />
 
-        <main className="flex-1 bg-white p-6 overflow-y-auto">
+        <main className="flex-1 bg-white dark:bg-gray-900 p-6 overflow-y-auto transition-colors">
           {/* Greeting Section */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#00002B] mb-1">
+            <h2 className="text-2xl font-bold text-[#00002B] dark:text-white mb-1">
               {getTimeBasedGreeting()}, {getGreetingName()}! 👋
             </h2>
-            <p className="text-[#00002B]/80">Welcome to kylian.</p>
+            <p className="text-[#00002B]/80 dark:text-gray-400">
+              Welcome to kylian.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column */}
             <div className="space-y-6">
               {/* User Profile Card */}
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 transition-colors">
                 <div className="flex flex-col items-center">
                   <div className="relative mb-4">
                     <img
                       src={profileImage}
                       alt={getFullName()}
-                      className="w-32 h-32 rounded-full object-cover border-4 border-gray-100"
+                      className="w-32 h-32 rounded-full object-cover border-4 border-gray-100 dark:border-gray-700"
                     />
                     <button className="absolute bottom-0 right-0 bg-[#00002B] text-white p-2 rounded-full hover:bg-[#00002B]/90 transition-colors">
                       <Edit size={16} />
                     </button>
                   </div>
-                  <h3 className="text-xl font-bold text-[#00002B] mb-1">
+                  <h3 className="text-xl font-bold text-[#00002B] dark:text-white mb-1">
                     {getFullName()}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-1">{getRole()}</p>
-                  <p className="text-sm text-gray-500 mb-4">{getEducation()}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                    {getRole()}
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500 mb-4">
+                    {getEducation()}
+                  </p>
                   {offerLetterUrl && (
                     <div className="flex gap-3 w-full">
                       <a
@@ -177,14 +183,14 @@ const JobOffer = () => {
               </div>
 
               {/* Offer Letter Section */}
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-lg font-bold text-[#00002B] mb-4">
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 transition-colors">
+                <h3 className="text-lg font-bold text-[#00002B] dark:text-white mb-4">
                   Offer Letter
                 </h3>
                 {offerLetterUrl ? (
                   <>
                     {/* PDF Viewer */}
-                    <div className="border border-gray-300 rounded-lg overflow-hidden mb-4 bg-gray-50">
+                    <div className="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden mb-4 bg-gray-50 dark:bg-gray-900">
                       <iframe
                         src={`${offerLetterUrl}#toolbar=0&navpanes=0&scrollbar=1`}
                         className="w-full h-[600px]"
@@ -198,15 +204,15 @@ const JobOffer = () => {
                       <div
                         className={`mb-4 p-3 rounded-lg ${
                           offerStatus === 'accepted'
-                            ? 'bg-green-50 border border-green-200'
-                            : 'bg-red-50 border border-red-200'
+                            ? 'bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800'
+                            : 'bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800'
                         }`}
                       >
                         <p
                           className={`text-sm font-medium ${
                             offerStatus === 'accepted'
-                              ? 'text-green-800'
-                              : 'text-red-800'
+                              ? 'text-green-800 dark:text-green-300'
+                              : 'text-red-800 dark:text-red-300'
                           }`}
                         >
                           {offerStatus === 'accepted'
@@ -249,7 +255,7 @@ const JobOffer = () => {
                     </div>
                   </>
                 ) : (
-                  <div className="text-center py-12 text-gray-500">
+                  <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                     <FileText size={48} className="mx-auto mb-3 opacity-50" />
                     <p className="text-lg font-medium mb-1">
                       No offer letter available
@@ -265,8 +271,8 @@ const JobOffer = () => {
             {/* Right Column */}
             <div className="space-y-6">
               {/* Onboarding Status Card */}
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-lg font-bold text-[#00002B] mb-4">
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 transition-colors">
+                <h3 className="text-lg font-bold text-[#00002B] dark:text-white mb-4">
                   Onboarding Status
                 </h3>
                 <div className="flex flex-col items-center mb-6">
@@ -277,6 +283,7 @@ const JobOffer = () => {
                         cy="64"
                         r="56"
                         stroke="#E5E7EB"
+                        className="dark:stroke-gray-700"
                         strokeWidth="12"
                         fill="none"
                       />
@@ -294,24 +301,24 @@ const JobOffer = () => {
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-[#00002B]">
+                      <span className="text-2xl font-bold text-[#00002B] dark:text-white">
                         {onboardingProgress}%
                       </span>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4 text-center">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 text-center">
                     Your Onboarding is only {onboardingProgress}% complete!
                   </p>
                   <div className="w-full space-y-2 mb-6">
                     {progressItems.map((item, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
+                        className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded-lg"
                       >
-                        <span className="text-sm text-gray-700">
+                        <span className="text-sm text-gray-700 dark:text-gray-300">
                           {item.label}
                         </span>
-                        <span className="text-sm font-medium text-[#00002B]">
+                        <span className="text-sm font-medium text-[#00002B] dark:text-white">
                           +{item.percent}%
                         </span>
                       </div>

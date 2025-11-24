@@ -46,7 +46,7 @@ const Teams = () => {
   }, [dispatch, companyId, employeeId]);
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
@@ -55,7 +55,7 @@ const Teams = () => {
           userEmail={user?.employee_email || user?.employee_officialemail || ''}
         />
 
-        <main className="flex-1 bg-[#00002B] p-6 overflow-y-auto">
+        <main className="flex-1 bg-[#00002B] dark:bg-gray-800 p-6 overflow-y-auto transition-colors">
           {/* Greeting Section */}
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-white mb-1">
@@ -76,8 +76,8 @@ const Teams = () => {
 
           {/* Error State */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-              <p className="text-red-600">{error}</p>
+            <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+              <p className="text-red-600 dark:text-red-300">{error}</p>
             </div>
           )}
 
@@ -88,10 +88,10 @@ const Teams = () => {
                 employees.map((employee, index) => (
                   <div
                     key={employee.id || index}
-                    className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                    className="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
                   >
                     {/* Employee Image */}
-                    <div className="aspect-square bg-gray-200 overflow-hidden">
+                    <div className="aspect-square bg-gray-200 dark:bg-gray-600 overflow-hidden">
                       {employee.profile_image_url ? (
                         <img
                           src={`https://apiqa.kylianerp.com${employee.profile_image_url}`}
@@ -99,8 +99,8 @@ const Teams = () => {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-300">
-                          <span className="text-4xl text-gray-500">
+                        <div className="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-600">
+                          <span className="text-4xl text-gray-500 dark:text-gray-400">
                             {employee.employee_fristname
                               ? employee.employee_fristname.charAt(0).toUpperCase()
                               : '?'}
@@ -110,11 +110,11 @@ const Teams = () => {
                     </div>
 
                     {/* Employee Info */}
-                    <div className="p-4 bg-white">
-                      <h3 className="font-bold text-[#00002B] text-lg mb-1">
+                    <div className="p-4 bg-white dark:bg-gray-700">
+                      <h3 className="font-bold text-[#00002B] dark:text-white text-lg mb-1">
                         {`${employee.employee_fristname || ''} ${employee.employee_lastname || ''}`.trim() || 'Unknown Employee'}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         {employee.employee_designation || 'Employee'}
                       </p>
                     </div>

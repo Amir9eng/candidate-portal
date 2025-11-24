@@ -14,30 +14,34 @@ const Header = ({
   const { toggleSidebar } = useSidebar();
 
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between transition-colors">
       <div className="flex items-center gap-4">
         <button
           onClick={toggleSidebar}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
         >
-          <Menu size={24} className="text-[#00002B]" />
+          <Menu size={24} className="text-[#00002B] dark:text-white" />
         </button>
-        <h1 className="text-xl font-bold text-[#00002B]">Candiate Portal</h1>
+        <h1 className="text-xl font-bold text-[#00002B] dark:text-white">
+          Candiate Portal
+        </h1>
       </div>
 
       <div className="flex items-center gap-4">
         {/* User Profile */}
-        <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
+        <div className="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-gray-700">
           <img
             src={avatar}
             alt="User avatar"
             className="w-10 h-10 rounded-full object-cover"
           />
           <div className="flex flex-col">
-            <span className="text-sm font-semibold text-[#00002B]">
+            <span className="text-sm font-semibold text-[#00002B] dark:text-white">
               {userName}
             </span>
-            <span className="text-xs text-gray-500">{userEmail}</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              {userEmail}
+            </span>
           </div>
         </div>
       </div>

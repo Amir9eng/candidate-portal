@@ -41,7 +41,7 @@ const Support = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
@@ -50,11 +50,13 @@ const Support = () => {
           userEmail={user?.employee_email || user?.employee_officialemail || ''}
         />
 
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-6 overflow-y-auto bg-gray-50 dark:bg-gray-900 transition-colors">
           {/* Page Header */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#00002B] mb-1">Support</h2>
-            <p className="text-gray-600">
+            <h2 className="text-2xl font-bold text-[#00002B] dark:text-white mb-1">
+              Support
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
               Get help or contact our support team
             </p>
           </div>
@@ -62,37 +64,37 @@ const Support = () => {
           <div className="max-w-4xl grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Contact Information Cards */}
             <div className="lg:col-span-1 space-y-4">
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors">
                 <div className="flex items-center gap-3 mb-4">
-                  <Mail className="text-[#00002B]" size={24} />
-                  <h3 className="text-lg font-semibold text-[#00002B]">
+                  <Mail className="text-[#00002B] dark:text-white" size={24} />
+                  <h3 className="text-lg font-semibold text-[#00002B] dark:text-white">
                     Email Support
                   </h3>
                 </div>
-                <p className="text-gray-600 text-sm mb-2">
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
                   Send us an email and we'll respond within 24 hours
                 </p>
                 <a
                   href="mailto:support@kylianerp.com"
-                  className="text-[#00002B] hover:underline font-medium"
+                  className="text-[#00002B] dark:text-blue-400 hover:underline font-medium"
                 >
                   support@kylianerp.com
                 </a>
               </div>
 
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors">
                 <div className="flex items-center gap-3 mb-4">
-                  <Phone className="text-[#00002B]" size={24} />
-                  <h3 className="text-lg font-semibold text-[#00002B]">
+                  <Phone className="text-[#00002B] dark:text-white" size={24} />
+                  <h3 className="text-lg font-semibold text-[#00002B] dark:text-white">
                     Phone Support
                   </h3>
                 </div>
-                <p className="text-gray-600 text-sm mb-2">
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
                   Call us during business hours
                 </p>
                 <a
                   href="tel:+1234567890"
-                  className="text-[#00002B] hover:underline font-medium"
+                  className="text-[#00002B] dark:text-blue-400 hover:underline font-medium"
                 >
                   +1 (234) 567-890
                 </a>
@@ -101,17 +103,20 @@ const Support = () => {
 
             {/* Support Form */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors">
                 <div className="flex items-center gap-3 mb-6">
-                  <HelpCircle className="text-[#00002B]" size={24} />
-                  <h3 className="text-xl font-semibold text-[#00002B]">
+                  <HelpCircle
+                    className="text-[#00002B] dark:text-white"
+                    size={24}
+                  />
+                  <h3 className="text-xl font-semibold text-[#00002B] dark:text-white">
                     Submit a Request
                   </h3>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Category
                     </label>
                     <select
@@ -119,7 +124,7 @@ const Support = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, category: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00002B] focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#00002B] focus:border-transparent"
                     >
                       <option value="general">General Inquiry</option>
                       <option value="technical">Technical Issue</option>
@@ -130,7 +135,7 @@ const Support = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Subject
                     </label>
                     <input
@@ -141,12 +146,12 @@ const Support = () => {
                       }
                       placeholder="What can we help you with?"
                       required
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00002B] focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00002B] focus:border-transparent"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Message
                     </label>
                     <textarea
@@ -157,11 +162,11 @@ const Support = () => {
                       placeholder="Please provide as much detail as possible..."
                       rows={8}
                       required
-                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00002B] focus:border-transparent resize-none"
+                      className="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00002B] focus:border-transparent resize-none"
                     />
                   </div>
 
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                     <FileText size={16} />
                     <span>You can attach files after submitting this form</span>
                   </div>
@@ -177,35 +182,35 @@ const Support = () => {
               </div>
 
               {/* FAQ Section */}
-              <div className="mt-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h3 className="text-xl font-semibold text-[#00002B] mb-4">
+              <div className="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors">
+                <h3 className="text-xl font-semibold text-[#00002B] dark:text-white mb-4">
                   Frequently Asked Questions
                 </h3>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-2">
+                    <h4 className="font-medium text-gray-900 dark:text-white mb-2">
                       How do I update my profile information?
                     </h4>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       You can update your profile information from the Settings
                       page. Some information may require admin approval.
                     </p>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-2">
+                    <h4 className="font-medium text-gray-900 dark:text-white mb-2">
                       How do I download my offer letter?
                     </h4>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       You can download your offer letter from the Job Offer
                       page. Click on the download button next to your offer
                       letter.
                     </p>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-2">
+                    <h4 className="font-medium text-gray-900 dark:text-white mb-2">
                       Who can I contact for technical issues?
                     </h4>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       For technical issues, please submit a support request with
                       the category "Technical Issue" or contact our support team
                       directly.

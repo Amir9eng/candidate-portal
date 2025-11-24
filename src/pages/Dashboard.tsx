@@ -103,7 +103,7 @@ const Dashboard = () => {
   const offerLetterUrl = user?.offerletter_url;
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
@@ -112,20 +112,22 @@ const Dashboard = () => {
           userEmail={user?.employee_email || user?.employee_officialemail || ''}
         />
 
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-6 overflow-y-auto bg-gray-50 dark:bg-gray-900 transition-colors">
           {/* Greeting Section */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#00002B] mb-1">
+            <h2 className="text-2xl font-bold text-[#00002B] dark:text-white mb-1">
               {getTimeBasedGreeting()}, {getGreetingName()}! 👋
             </h2>
-            <p className="text-gray-600">Welcome to kylian.</p>
+            <p className="text-gray-600 dark:text-gray-400">
+              Welcome to kylian.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left Column */}
             <div className="lg:col-span-2 space-y-6">
               {/* User Profile Card */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-colors">
                 <div className="flex flex-col md:flex-row gap-6">
                   <img
                     src={profileImage}
@@ -133,11 +135,13 @@ const Dashboard = () => {
                     className="w-32 h-32 rounded-lg object-cover"
                   />
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-[#00002B] mb-1">
+                    <h3 className="text-xl font-bold text-[#00002B] dark:text-white mb-1">
                       {getFullName()}
                     </h3>
                     {getTitle() && (
-                      <p className="text-gray-600 mb-4">{getTitle()}</p>
+                      <p className="text-gray-600 dark:text-gray-400 mb-4">
+                        {getTitle()}
+                      </p>
                     )}
                     <div className="flex gap-3">
                       {offerLetterUrl && (
@@ -166,82 +170,90 @@ const Dashboard = () => {
               </div>
 
               {/* Personal Information */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-colors">
                 <div className="flex items-center gap-2 mb-4">
-                  <User size={20} className="text-[#00002B]" />
-                  <h3 className="text-lg font-bold text-[#00002B]">
+                  <User size={20} className="text-[#00002B] dark:text-white" />
+                  <h3 className="text-lg font-bold text-[#00002B] dark:text-white">
                     Personal Information
                   </h3>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   {user?.employee_fristname && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">First name</p>
-                      <p className="text-[#00002B] font-medium">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                        First name
+                      </p>
+                      <p className="text-[#00002B] dark:text-white font-medium">
                         {user.employee_fristname}
                       </p>
                     </div>
                   )}
                   {user?.employee_lastname && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Last name</p>
-                      <p className="text-[#00002B] font-medium">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                        Last name
+                      </p>
+                      <p className="text-[#00002B] dark:text-white font-medium">
                         {user.employee_lastname}
                       </p>
                     </div>
                   )}
                   {(user?.employee_email || user?.employee_officialemail) && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
                         Email Address
                       </p>
-                      <p className="text-[#00002B] font-medium">
+                      <p className="text-[#00002B] dark:text-white font-medium">
                         {user.employee_email || user.employee_officialemail}
                       </p>
                     </div>
                   )}
                   {user?.employee_phone1 && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
                         Mobile Number
                       </p>
-                      <p className="text-[#00002B] font-medium">
+                      <p className="text-[#00002B] dark:text-white font-medium">
                         {user.employee_phone1}
                       </p>
                     </div>
                   )}
                   {user?.employee_maritalstatus && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
                         Marital Status
                       </p>
-                      <p className="text-[#00002B] font-medium">
+                      <p className="text-[#00002B] dark:text-white font-medium">
                         {user.employee_maritalstatus}
                       </p>
                     </div>
                   )}
                   {(user?.city || user?.employee_address) && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">City</p>
-                      <p className="text-[#00002B] font-medium">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                        City
+                      </p>
+                      <p className="text-[#00002B] dark:text-white font-medium">
                         {user.city || user.employee_address}
                       </p>
                     </div>
                   )}
                   {getYearFromDate(user?.employee_date_of_birth) && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
                         Year of Birth
                       </p>
-                      <p className="text-[#00002B] font-medium">
+                      <p className="text-[#00002B] dark:text-white font-medium">
                         {getYearFromDate(user.employee_date_of_birth)}
                       </p>
                     </div>
                   )}
                   {user?.employee_sex && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Gender</p>
-                      <p className="text-[#00002B] font-medium">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                        Gender
+                      </p>
+                      <p className="text-[#00002B] dark:text-white font-medium">
                         {user.employee_sex}
                       </p>
                     </div>
@@ -253,8 +265,8 @@ const Dashboard = () => {
             {/* Right Column */}
             <div className="space-y-6">
               {/* Onboarding Status */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="text-lg font-bold text-[#00002B] mb-4">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-colors">
+                <h3 className="text-lg font-bold text-[#00002B] dark:text-white mb-4">
                   Onboarding Status
                 </h3>
                 <div className="flex flex-col items-center mb-6">
@@ -265,6 +277,7 @@ const Dashboard = () => {
                         cy="64"
                         r="56"
                         stroke="#e5e7eb"
+                        className="dark:stroke-gray-700"
                         strokeWidth="12"
                         fill="none"
                       />
@@ -283,12 +296,12 @@ const Dashboard = () => {
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-[#00002B]">
+                      <span className="text-2xl font-bold text-[#00002B] dark:text-white">
                         {onboardingProgress}%
                       </span>
                     </div>
                   </div>
-                  <p className="text-center text-gray-600 mb-4">
+                  <p className="text-center text-gray-600 dark:text-gray-400 mb-4">
                     Your Onboarding is only {onboardingProgress}% complete!
                   </p>
                 </div>
@@ -296,12 +309,12 @@ const Dashboard = () => {
                   {progressItems.map((item, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                      className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
                     >
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
                         {item.label}
                       </span>
-                      <span className="text-sm font-semibold text-[#00002B]">
+                      <span className="text-sm font-semibold text-[#00002B] dark:text-white">
                         +{item.percent}%
                       </span>
                     </div>
