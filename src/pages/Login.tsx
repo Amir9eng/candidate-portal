@@ -61,7 +61,7 @@ const Login = () => {
             {/* Welcome Message */}
             <div className="mb-8">
               <h1 className="text-2xl lg:text-3xl font-bold text-[#00002B] mb-2 leading-tight">
-                Welcome to Onboarding, Daniel!
+                Welcome to Onboarding,
               </h1>
               <p className="text-lg text-[#00002B] font-normal">
                 Lets get you started.
