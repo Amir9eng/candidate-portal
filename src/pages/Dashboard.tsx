@@ -4,7 +4,6 @@ import { useAppSelector } from '../store/hooks';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import { User } from 'lucide-react';
-import avatar from '../assets/avatar.png';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -43,6 +42,44 @@ const Dashboard = () => {
   // Helper function to get greeting name
   const getGreetingName = (): string => {
     return user?.employee_fristname || user?.employee_nick_name || 'there';
+  };
+
+  // Helper function to get initials (first and last name) for avatar
+  const getInitial = (): string => {
+    if (!user) return 'U';
+    const firstName = user.employee_fristname || '';
+    const lastName = user.employee_lastname || '';
+
+    if (!firstName && !lastName) return 'U';
+
+    const firstInitial = firstName.charAt(0).toUpperCase();
+    const lastInitial = lastName.charAt(0).toUpperCase();
+
+    if (firstInitial && lastInitial) {
+      return firstInitial + lastInitial;
+    } else if (firstInitial) {
+      return firstInitial;
+    } else if (lastInitial) {
+      return lastInitial;
+    }
+
+    return 'U';
+  };
+
+  // Helper function to get background color based on initial
+  const getAvatarColor = (): string => {
+    const initial = getInitial();
+    const colors = [
+      'bg-blue-500',
+      'bg-green-500',
+      'bg-pink-500',
+      'bg-indigo-500',
+      'bg-yellow-500',
+      'bg-red-500',
+      'bg-teal-500',
+    ];
+    const index = initial.charCodeAt(0) % colors.length;
+    return colors[index];
   };
 
   // Helper function to get time-based greeting
@@ -96,9 +133,6 @@ const Dashboard = () => {
     { label: 'Check Your Team', percent: 50 },
   ];
 
-  // Get profile image or use default
-  const profileImage = user?.profile_image_url || avatar;
-
   // Get offer letter URL
   const offerLetterUrl = user?.offerletter_url;
 
@@ -129,11 +163,11 @@ const Dashboard = () => {
               {/* User Profile Card */}
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-colors">
                 <div className="flex flex-col md:flex-row gap-6">
-                  <img
-                    src={profileImage}
-                    alt="Profile"
-                    className="w-32 h-32 rounded-lg object-cover"
-                  />
+                  <div
+                    className={`w-32 h-32 rounded-lg flex items-center justify-center text-white text-3xl font-bold ${getAvatarColor()}`}
+                  >
+                    {getInitial()}
+                  </div>
                   <div className="flex-1">
                     <h3 className="text-xl font-bold text-[#00002B] dark:text-white mb-1">
                       {getFullName()}

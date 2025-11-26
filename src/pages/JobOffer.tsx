@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
-import { FileText, Edit, Check, X } from 'lucide-react';
-import avatar from '../assets/avatar.png';
+import { FileText, Check, X } from 'lucide-react';
+import { BASE_URL } from '../services/api';
 
 const JobOffer = () => {
   const navigate = useNavigate();
@@ -59,6 +59,44 @@ const JobOffer = () => {
     return parts.length > 0 ? parts.join(' • ') : 'Not specified';
   };
 
+  // Helper function to get initials (first and last name) for avatar
+  const getInitial = (): string => {
+    if (!user) return 'U';
+    const firstName = user.employee_fristname || '';
+    const lastName = user.employee_lastname || '';
+
+    if (!firstName && !lastName) return 'U';
+
+    const firstInitial = firstName.charAt(0).toUpperCase();
+    const lastInitial = lastName.charAt(0).toUpperCase();
+
+    if (firstInitial && lastInitial) {
+      return firstInitial + lastInitial;
+    } else if (firstInitial) {
+      return firstInitial;
+    } else if (lastInitial) {
+      return lastInitial;
+    }
+
+    return 'U';
+  };
+
+  // Helper function to get background color based on initial
+  const getAvatarColor = (): string => {
+    const initial = getInitial();
+    const colors = [
+      'bg-blue-500',
+      'bg-green-500',
+      'bg-pink-500',
+      'bg-indigo-500',
+      'bg-yellow-500',
+      'bg-red-500',
+      'bg-teal-500',
+    ];
+    const index = initial.charCodeAt(0) % colors.length;
+    return colors[index];
+  };
+
   // Calculate onboarding progress
   const calculateOnboardingProgress = (): number => {
     if (!user) return 0;
@@ -79,14 +117,9 @@ const JobOffer = () => {
 
   const onboardingProgress = calculateOnboardingProgress();
 
-  // Get profile image
-  const profileImage = user?.profile_image_url
-    ? `https://apiqa.kylianerp.com${user.profile_image_url}`
-    : avatar;
-
   // Get offer letter URL
   const offerLetterUrl = user?.offerletter_url
-    ? `https://apiqa.kylianerp.com${user.offerletter_url}`
+    ? `${BASE_URL}${user.offerletter_url}`
     : null;
 
   const handleAcceptOffer = () => {
@@ -142,14 +175,11 @@ const JobOffer = () => {
               <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 transition-colors">
                 <div className="flex flex-col items-center">
                   <div className="relative mb-4">
-                    <img
-                      src={profileImage}
-                      alt={getFullName()}
-                      className="w-32 h-32 rounded-full object-cover border-4 border-gray-100 dark:border-gray-700"
-                    />
-                    <button className="absolute bottom-0 right-0 bg-[#00002B] text-white p-2 rounded-full hover:bg-[#00002B]/90 transition-colors">
-                      <Edit size={16} />
-                    </button>
+                    <div
+                      className={`w-32 h-32 rounded-full flex items-center justify-center text-white text-3xl font-bold border-4 border-gray-100 dark:border-gray-700 ${getAvatarColor()}`}
+                    >
+                      {getInitial()}
+                    </div>
                   </div>
                   <h3 className="text-xl font-bold text-[#00002B] dark:text-white mb-1">
                     {getFullName()}

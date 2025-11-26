@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchEmployeesAsync } from '../store/employeesSlice';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
+import { BASE_URL } from '../services/api';
 
 const Teams = () => {
   const navigate = useNavigate();
@@ -31,7 +32,9 @@ const Teams = () => {
     const firstName = user.employee_fristname || '';
     const lastName = user.employee_lastname || '';
     const middleName = user.employee_middle_name || '';
-    return [firstName, middleName, lastName].filter(Boolean).join(' ') || 'User';
+    return (
+      [firstName, middleName, lastName].filter(Boolean).join(' ') || 'User'
+    );
   };
 
   // Helper function to get greeting name
@@ -94,7 +97,7 @@ const Teams = () => {
                     <div className="aspect-square bg-gray-200 dark:bg-gray-600 overflow-hidden">
                       {employee.profile_image_url ? (
                         <img
-                          src={`https://apiqa.kylianerp.com${employee.profile_image_url}`}
+                          src={`${BASE_URL}${employee.profile_image_url}`}
                           alt={`${employee.employee_fristname} ${employee.employee_lastname}`}
                           className="w-full h-full object-cover"
                         />
@@ -102,7 +105,9 @@ const Teams = () => {
                         <div className="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-600">
                           <span className="text-4xl text-gray-500 dark:text-gray-400">
                             {employee.employee_fristname
-                              ? employee.employee_fristname.charAt(0).toUpperCase()
+                              ? employee.employee_fristname
+                                  .charAt(0)
+                                  .toUpperCase()
                               : '?'}
                           </span>
                         </div>
@@ -112,7 +117,9 @@ const Teams = () => {
                     {/* Employee Info */}
                     <div className="p-4 bg-white dark:bg-gray-700">
                       <h3 className="font-bold text-[#00002B] dark:text-white text-lg mb-1">
-                        {`${employee.employee_fristname || ''} ${employee.employee_lastname || ''}`.trim() || 'Unknown Employee'}
+                        {`${employee.employee_fristname || ''} ${
+                          employee.employee_lastname || ''
+                        }`.trim() || 'Unknown Employee'}
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
                         {employee.employee_designation || 'Employee'}
@@ -134,4 +141,3 @@ const Teams = () => {
 };
 
 export default Teams;
-

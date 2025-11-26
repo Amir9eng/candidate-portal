@@ -1,6 +1,5 @@
 import { Menu } from 'lucide-react';
 import { useSidebar } from '../contexts/SidebarContext';
-import avatar from '../assets/avatar.png';
 
 interface HeaderProps {
   userName?: string;
@@ -12,6 +11,39 @@ const Header = ({
   userEmail = 'danielanyanwu22@gmail.com',
 }: HeaderProps) => {
   const { toggleSidebar } = useSidebar();
+
+  // Helper function to get initials from full name
+  const getInitial = (): string => {
+    if (!userName || userName.trim() === '') return 'U';
+    const nameParts = userName.trim().split(/\s+/);
+    if (nameParts.length >= 2) {
+      // First letter of first name + first letter of last name
+      return (
+        nameParts[0].charAt(0).toUpperCase() +
+        nameParts[nameParts.length - 1].charAt(0).toUpperCase()
+      );
+    } else if (nameParts.length === 1) {
+      // Only one name, return first letter
+      return nameParts[0].charAt(0).toUpperCase();
+    }
+    return 'U';
+  };
+
+  // Helper function to get background color based on initial
+  const getAvatarColor = (): string => {
+    const initial = getInitial();
+    const colors = [
+      'bg-blue-500',
+      'bg-green-500',
+      'bg-pink-500',
+      'bg-indigo-500',
+      'bg-yellow-500',
+      'bg-red-500',
+      'bg-teal-500',
+    ];
+    const index = initial.charCodeAt(0) % colors.length;
+    return colors[index];
+  };
 
   return (
     <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between transition-colors">
@@ -30,11 +62,11 @@ const Header = ({
       <div className="flex items-center gap-4">
         {/* User Profile */}
         <div className="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-gray-700">
-          <img
-            src={avatar}
-            alt="User avatar"
-            className="w-10 h-10 rounded-full object-cover"
-          />
+          <div
+            className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold ${getAvatarColor()}`}
+          >
+            {getInitial()}
+          </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-[#00002B] dark:text-white">
               {userName}

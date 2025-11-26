@@ -1,4 +1,5 @@
-const API_BASE_URL = 'https://apiqa.kylianerp.com/api';
+const API_BASE_URL = 'https://api.kylianerp.com/api';
+export const BASE_URL = 'https://api.kylianerp.com';
 
 export interface LoginRequest {
   email: string;
@@ -44,7 +45,9 @@ export const candidateLogin = async (
           }
         });
       }
-      throw new Error(errorMessages.join(', ') || data.message || 'Login failed');
+      throw new Error(
+        errorMessages.join(', ') || data.message || 'Login failed'
+      );
     }
 
     if (!response.ok) {
@@ -169,15 +172,15 @@ export const fetchEmployees = async (
     // Build URL with query parameters
     // The API only supports GET method, so we send parameters as query strings
     let url = `${API_BASE_URL}/fetchalleemployees/${companyId}`;
-    
+
     // Add query parameters
     const params = new URLSearchParams();
     params.append('company_id', companyId.toString());
-    
+
     // Include id if provided (required for the API to return data)
     const idToUse = employeeId || 911115; // Use employeeId if provided, otherwise use default
     params.append('id', idToUse.toString());
-    
+
     url += `?${params.toString()}`;
 
     const response = await fetch(url, {
@@ -201,4 +204,3 @@ export const fetchEmployees = async (
     throw new Error('An unexpected error occurred');
   }
 };
-
