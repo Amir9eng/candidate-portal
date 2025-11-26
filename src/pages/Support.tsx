@@ -61,48 +61,11 @@ const Support = () => {
             </p>
           </div>
 
-          <div className="max-w-4xl grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="max-w-4xl gap-6">
             {/* Contact Information Cards */}
-            <div className="lg:col-span-1 space-y-4">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors">
-                <div className="flex items-center gap-3 mb-4">
-                  <Mail className="text-[#00002B] dark:text-white" size={24} />
-                  <h3 className="text-lg font-semibold text-[#00002B] dark:text-white">
-                    Email Support
-                  </h3>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
-                  Send us an email and we'll respond within 24 hours
-                </p>
-                <a
-                  href="mailto:support@kylianerp.com"
-                  className="text-[#00002B] dark:text-blue-400 hover:underline font-medium"
-                >
-                  support@kylianerp.com
-                </a>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors">
-                <div className="flex items-center gap-3 mb-4">
-                  <Phone className="text-[#00002B] dark:text-white" size={24} />
-                  <h3 className="text-lg font-semibold text-[#00002B] dark:text-white">
-                    Phone Support
-                  </h3>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
-                  Call us during business hours
-                </p>
-                <a
-                  href="tel:+1234567890"
-                  className="text-[#00002B] dark:text-blue-400 hover:underline font-medium"
-                >
-                  +1 (234) 567-890
-                </a>
-              </div>
-            </div>
 
             {/* Support Form */}
-            <div className="lg:col-span-2">
+            <div className="">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors">
                 <div className="flex items-center gap-3 mb-6">
                   <HelpCircle
