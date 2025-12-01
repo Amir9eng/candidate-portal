@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
-import { HelpCircle, Mail, Phone, Send, FileText } from 'lucide-react';
+import { HelpCircle, Send, FileText } from 'lucide-react';
 
 const Support = () => {
   const navigate = useNavigate();
