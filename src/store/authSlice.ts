@@ -29,6 +29,10 @@ export const loginAsync = createAsyncThunk(
   ) => {
     try {
       const response = await candidateLogin(email, trackingNumber);
+      // Add tracking_number to the response so it's available in the user object
+      if (response.status === 'success' && response.candidate) {
+        response.candidate.tracking_number = trackingNumber;
+      }
       return response;
     } catch (error) {
       if (error instanceof Error) {

@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { logout } from '../store/authSlice';
+import { persistor } from '../store/store';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import { FileText, Check, X } from 'lucide-react';
-import { BASE_URL } from '../services/api';
+import { BASE_URL, acceptOffer } from '../services/api';
 
 const JobOffer = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const [offerStatus, setOfferStatus] = useState<
     'pending' | 'accepted' | 'rejected'
   >('pending');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showAcceptConfirmModal, setShowAcceptConfirmModal] = useState(false);
+  const [showRejectConfirmModal, setShowRejectConfirmModal] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -122,24 +129,76 @@ const JobOffer = () => {
     ? `${BASE_URL}${user.offerletter_url}`
     : null;
 
-  const handleAcceptOffer = () => {
-    if (window.confirm('Are you sure you want to accept this job offer?')) {
+  const handleAcceptOfferClick = () => {
+    setShowAcceptConfirmModal(true);
+  };
+
+  const handleAcceptOffer = async () => {
+    setShowAcceptConfirmModal(false);
+    
+    if (!user) {
+      alert('User information not available');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // Get tracking_number from user object (could be in different fields)
+      const trackingNumber =
+        user.tracking_number ||
+        user.employee_id ||
+        user.id?.toString() ||
+        '';
+
+      // Get email from user object
+      const email =
+        user.employee_email ||
+        user.employee_officialemail ||
+        '';
+
+      // Get company_id from user object
+      const companyId = user.company_id || user.companyId || 0;
+
+      if (!trackingNumber || !email || !companyId) {
+        throw new Error('Missing required information to accept offer');
+      }
+
+      // Call the API to accept the offer
+      await acceptOffer(trackingNumber, email, companyId);
+
+      // Update local state
       setOfferStatus('accepted');
-      // TODO: Add API call to accept the offer
-      alert('Job offer accepted successfully!');
+      setIsLoading(false);
+
+      // Show success modal
+      setShowSuccessModal(true);
+    } catch (error) {
+      setIsLoading(false);
+      alert(
+        error instanceof Error
+          ? error.message
+          : 'Failed to accept offer. Please try again.'
+      );
     }
   };
 
+  const handleCloseModalAndLogout = async () => {
+    setShowSuccessModal(false);
+    // Logout and clear credentials
+    dispatch(logout());
+    await persistor.purge();
+    navigate('/');
+  };
+
+  const handleRejectOfferClick = () => {
+    setShowRejectConfirmModal(true);
+  };
+
   const handleRejectOffer = () => {
-    if (
-      window.confirm(
-        'Are you sure you want to reject this job offer? This action cannot be undone.'
-      )
-    ) {
-      setOfferStatus('rejected');
-      // TODO: Add API call to reject the offer
-      alert('Job offer has been rejected.');
-    }
+    setShowRejectConfirmModal(false);
+    setOfferStatus('rejected');
+    // TODO: Add API call to reject the offer
+    alert('Job offer has been rejected.');
   };
 
   const progressItems = [
@@ -255,21 +314,23 @@ const JobOffer = () => {
                     {/* Action Buttons */}
                     <div className="flex gap-3">
                       <button
-                        onClick={handleAcceptOffer}
-                        disabled={offerStatus !== 'pending'}
+                        onClick={handleAcceptOfferClick}
+                        disabled={offerStatus !== 'pending' || isLoading}
                         className={`flex-1 py-3 px-4 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 transition-all ${
-                          offerStatus === 'pending'
+                          offerStatus === 'pending' && !isLoading
                             ? 'bg-green-600 text-white hover:bg-green-700 shadow-md hover:shadow-lg'
                             : offerStatus === 'accepted'
-                            ? 'bg-green-100 text-green-700 cursor-not-allowed'
+                            ? 'bg-green-100 text-green-700 cursor-not-allowed dark:bg-green-900/30 dark:text-green-300'
+                            : isLoading
+                            ? 'bg-green-400 text-white cursor-not-allowed'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                         }`}
                       >
                         <Check size={18} />
-                        Accept Offer
+                        {isLoading ? 'Accepting...' : 'Accept Offer'}
                       </button>
                       <button
-                        onClick={handleRejectOffer}
+                        onClick={handleRejectOfferClick}
                         disabled={offerStatus !== 'pending'}
                         className={`flex-1 py-3 px-4 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 transition-all ${
                           offerStatus === 'pending'
@@ -360,6 +421,97 @@ const JobOffer = () => {
           </div>
         </main>
       </div>
+
+      {/* Accept Confirmation Modal */}
+      {showAcceptConfirmModal && (
+        <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 shadow-xl border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
+                <Check size={32} className="text-green-600 dark:text-green-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-[#00002B] dark:text-white mb-2">
+                Accept Job Offer?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Are you sure you want to accept this job offer? This action will finalize your acceptance.
+              </p>
+              <div className="flex gap-3 w-full">
+                <button
+                  onClick={() => setShowAcceptConfirmModal(false)}
+                  className="flex-1 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 py-3 px-6 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAcceptOffer}
+                  className="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                >
+                  Yes, Accept Offer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reject Confirmation Modal */}
+      {showRejectConfirmModal && (
+        <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 shadow-xl border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-4">
+                <X size={32} className="text-red-600 dark:text-red-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-[#00002B] dark:text-white mb-2">
+                Reject Job Offer?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Are you sure you want to reject this job offer? This action cannot be undone.
+              </p>
+              <div className="flex gap-3 w-full">
+                <button
+                  onClick={() => setShowRejectConfirmModal(false)}
+                  className="flex-1 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 py-3 px-6 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleRejectOffer}
+                  className="flex-1 bg-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+                >
+                  Yes, Reject Offer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 shadow-xl border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
+                <Check size={32} className="text-green-600 dark:text-green-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-[#00002B] dark:text-white mb-2">
+                Offer Accepted Successfully!
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Congratulations! You have successfully accepted the job offer. You will be logged out and redirected to the login page.
+              </p>
+              <button
+                onClick={handleCloseModalAndLogout}
+                className="w-full bg-[#00002B] text-white py-3 px-6 rounded-lg font-semibold hover:bg-[#00002B]/90 transition-colors"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

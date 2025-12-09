@@ -14,15 +14,15 @@ function App() {
     <Router>
       <ThemeProvider>
         <SidebarProvider>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/job-offer" element={<JobOffer />} />
-            <Route path="/teams" element={<Teams />} />
+        <Route path="/teams" element={<Teams />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/support" element={<Support />} />
             <Route path="*" element={<NotFound />} />
-          </Routes>
+      </Routes>
         </SidebarProvider>
       </ThemeProvider>
     </Router>

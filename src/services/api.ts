@@ -204,3 +204,51 @@ export const fetchEmployees = async (
     throw new Error('An unexpected error occurred');
   }
 };
+
+export interface AcceptOfferRequest {
+  tracking_number: string;
+  email: string;
+  company_id: number;
+}
+
+export interface AcceptOfferResponse {
+  employees?: {
+    id: number;
+    offer_accepted: boolean;
+    [key: string]: any;
+  };
+  message: string;
+}
+
+export const acceptOffer = async (
+  trackingNumber: string,
+  email: string,
+  companyId: number
+): Promise<AcceptOfferResponse> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/acceptoffer`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tracking_number: trackingNumber,
+        email: email,
+        company_id: companyId,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to accept offer');
+    }
+
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};

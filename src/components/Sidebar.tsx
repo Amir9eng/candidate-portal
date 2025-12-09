@@ -53,7 +53,7 @@ const Sidebar = () => {
         {isCollapsed ? (
           <img src={logo} alt="kylianerp logo" className="h-8 w-8 mx-auto" />
         ) : (
-          <img src={logo} alt="kylianerp logo" className="h-8 w-auto" />
+        <img src={logo} alt="kylianerp logo" className="h-8 w-auto" />
         )}
       </div>
 
@@ -79,7 +79,7 @@ const Sidebar = () => {
             >
               <Icon size={20} />
               {!isCollapsed && (
-                <span className="font-medium">{item.name}</span>
+              <span className="font-medium">{item.name}</span>
               )}
             </button>
           );
