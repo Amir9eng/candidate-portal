@@ -14,7 +14,10 @@ const JobOffer = () => {
   const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const [offerStatus, setOfferStatus] = useState<
     'pending' | 'accepted' | 'rejected'
-  >('pending');
+  >(
+    // Initialize from backend flag so buttons stay disabled if offer was already accepted
+    user?.offer_accepted || user?.employees?.offer_accepted ? 'accepted' : 'pending'
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showAcceptConfirmModal, setShowAcceptConfirmModal] = useState(false);
@@ -25,6 +28,13 @@ const JobOffer = () => {
       navigate('/');
     }
   }, [isAuthenticated, navigate]);
+
+  // Keep offerStatus in sync if the backend says the offer is already accepted
+  useEffect(() => {
+    if (user?.offer_accepted || user?.employees?.offer_accepted) {
+      setOfferStatus('accepted');
+    }
+  }, [user]);
 
   // Helper function to get full name
   const getFullName = (): string => {
